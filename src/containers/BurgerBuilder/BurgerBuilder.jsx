@@ -95,8 +95,7 @@ class BurgerBuilder extends Component {
             continueClicked={this.continueHandler}
             ingerdients={this.state.ingerdients}
           ></OrderSummery>
-        </Modal>
-        <div>BurgerBuilder</div>
+        </Modal>        
         <Burger ingerdients={this.state.ingerdients}></Burger>
         <BuildControls
           addIngerdient={this.addIngerdientHandler}
