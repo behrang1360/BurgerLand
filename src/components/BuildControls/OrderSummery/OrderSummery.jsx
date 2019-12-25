@@ -17,12 +17,14 @@ const orderSummery = porps => {
       <h3>Your order</h3>
       <ul>{ingerdientsSummery}</ul>
       <p>
-        <strong>Total Price : {porps.price.ToFixed(2)}</strong>
+        <strong>Total Price : {porps.price.toFixed(2)}</strong>
       </p>
-      <Button Clicked={porps.Clicked} style="Danger">
+      <Button Clicked={porps.cancelClicked} style="Danger">
         Cancel
       </Button>
-      <Button style="Success">Continue</Button>
+      <Button style="Success" Clicked={porps.continueClicked}>
+        Continue
+      </Button>
     </Wrapper>
   );
 };

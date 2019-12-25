@@ -74,6 +74,10 @@ class BurgerBuilder extends Component {
     this.updateCanOrder(ingerdients);
   };
 
+  continueHandler = () => {
+    alert("continue");
+  };
+
   render() {
     const disabledIngerdient = {
       ...this.state.ingerdients
@@ -87,7 +91,8 @@ class BurgerBuilder extends Component {
         <Modal show={this.state.ordering} modalClosed={this.closeModalHandler}>
           <OrderSummery
             price={this.state.totalPrice}
-            Clicked={this.closeModalHandler}
+            cancelClicked={this.closeModalHandler}
+            continueClicked={this.continueHandler}
             ingerdients={this.state.ingerdients}
           ></OrderSummery>
         </Modal>
