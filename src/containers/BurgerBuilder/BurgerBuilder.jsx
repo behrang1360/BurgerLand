@@ -29,7 +29,7 @@ class BurgerBuilder extends Component {
     let newTotalPrice = this.state.totalPrice + INGERDIENT_PRICE[type];
     this.setState({
       ingerdients,
-      newTotalPrice
+      totalPrice:newTotalPrice
     });
   };
 
@@ -44,7 +44,7 @@ class BurgerBuilder extends Component {
     let newTotalPrice = this.state.totalPrice - INGERDIENT_PRICE[type];
     this.setState({
       ingerdients,
-      newTotalPrice
+      totalPrice:newTotalPrice
     });
   };
 
@@ -65,6 +65,7 @@ class BurgerBuilder extends Component {
           addIngerdient={this.addIngerdientHandler}
           removeIngerdient={this.removeIngerdientHandler}
           disabledInfo={disabledIngerdient}
+          totalPrice ={this.state.totalPrice}
         />
       </Wrapper>
     );

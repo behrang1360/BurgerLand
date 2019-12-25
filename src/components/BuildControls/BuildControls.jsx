@@ -12,12 +12,13 @@ const controls = [
 const buildControls = props => {
   return (
     <div className="BuildControls">
+       <strong>{props.totalPrice.toFixed(2)}</strong>
       {controls.map(el => {
         return (
           <BuildControl
             added={() => props.addIngerdient(el.type)}
             remove={()=>props.removeIngerdient(el.type)}
-            lable={el.lable}
+            label={el.type}
             type={el.type}
             key={el.type}
             disabled ={props.disabledInfo[el.type]}
