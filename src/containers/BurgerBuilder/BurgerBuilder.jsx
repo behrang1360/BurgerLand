@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Wrapper from "../../hoc/Warpper";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/BuildControls/BuildControls";
+import Modal from "../../components/UI/Modal/Modal";
+import OrderSummery from "../../components/BuildControls/OrderSummery/OrderSummery";
 
 const INGERDIENT_PRICE = {
   Salad: 0.5,
@@ -18,7 +20,29 @@ class BurgerBuilder extends Component {
       Bacon: 0,
       Cheese: 0
     },
-    totalPrice: 1.5
+    totalPrice: 1.5,
+    canOrder: false,
+    ordering: false
+  };
+
+  orderButtonHandler = () => {
+    this.setState({ ordering: true });
+  };
+
+  closeModalHandler = () => {
+    this.setState({ ordering: false });
+  };
+  updateCanOrder = ingerdients => {
+    const totalAmount = Object.keys(ingerdients)
+      .map(key => {
+        return ingerdients[key];
+      })
+      .reduce((sum, el) => {
+        return sum + el;
+      }, 0);
+    this.setState({
+      canOrder: totalAmount > 0
+    });
   };
 
   addIngerdientHandler = type => {
@@ -29,8 +53,9 @@ class BurgerBuilder extends Component {
     let newTotalPrice = this.state.totalPrice + INGERDIENT_PRICE[type];
     this.setState({
       ingerdients,
-      totalPrice:newTotalPrice
+      totalPrice: newTotalPrice
     });
+    this.updateCanOrder(ingerdients);
   };
 
   removeIngerdientHandler = type => {
@@ -44,12 +69,12 @@ class BurgerBuilder extends Component {
     let newTotalPrice = this.state.totalPrice - INGERDIENT_PRICE[type];
     this.setState({
       ingerdients,
-      totalPrice:newTotalPrice
+      totalPrice: newTotalPrice
     });
+    this.updateCanOrder(ingerdients);
   };
 
   render() {
-    debugger;
     const disabledIngerdient = {
       ...this.state.ingerdients
     };
@@ -59,13 +84,22 @@ class BurgerBuilder extends Component {
 
     return (
       <Wrapper>
+        <Modal show={this.state.ordering} modalClosed={this.closeModalHandler}>
+          <OrderSummery
+            price={this.state.totalPrice}
+            Clicked={this.closeModalHandler}
+            ingerdients={this.state.ingerdients}
+          ></OrderSummery>
+        </Modal>
         <div>BurgerBuilder</div>
         <Burger ingerdients={this.state.ingerdients}></Burger>
         <BuildControls
           addIngerdient={this.addIngerdientHandler}
           removeIngerdient={this.removeIngerdientHandler}
           disabledInfo={disabledIngerdient}
-          totalPrice ={this.state.totalPrice}
+          totalPrice={this.state.totalPrice}
+          canOrder={this.state.canOrder}
+          orderClick={this.orderButtonHandler}
         />
       </Wrapper>
     );

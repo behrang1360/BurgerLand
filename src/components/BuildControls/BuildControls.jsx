@@ -2,6 +2,7 @@ import React from "react";
 import BuildControl from "../../components/BuildControls/BuildControl/BuildControl";
 import "./BuildControls.css";
 
+
 const controls = [
   { lable: "Salad", type: "Salad" },
   { lable: "Bacon", type: "Bacon" },
@@ -14,7 +15,7 @@ const buildControls = props => {
     <div className="BuildControls">
        <strong>{props.totalPrice.toFixed(2)}</strong>
       {controls.map(el => {
-        return (
+        return (       
           <BuildControl
             added={() => props.addIngerdient(el.type)}
             remove={()=>props.removeIngerdient(el.type)}
@@ -22,9 +23,11 @@ const buildControls = props => {
             type={el.type}
             key={el.type}
             disabled ={props.disabledInfo[el.type]}
-          />
+            />
+            
         );
       })}
+      <button className="OrderButton" onClick={props.orderClick} disabled={!props.canOrder}>Add to cart</button>
     </div>
   );
 };
