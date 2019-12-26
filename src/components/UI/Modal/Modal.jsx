@@ -6,7 +6,8 @@ import Backdrop from "../BackDrop/BackDrop";
 class modal extends Component {
 
   componentWillUpdate(prevState, nextState) { 
-    return (prevState.show != nextState.show)
+    
+    return ( nextState!= null && prevState.show != nextState.show)
     
   }
   render() {

@@ -14,7 +14,7 @@ const INGERDIENT_PRICE = {
 
 class BurgerBuilder extends Component {
   state = {
-    ingerdients: {
+    ingredients: {
       Salad: 0,
       Meat: 0,
       Bacon: 0,
@@ -25,6 +25,10 @@ class BurgerBuilder extends Component {
     ordering: false
   };
 
+  componentDidMount() {
+    console.log(this.props);
+  }
+
   orderButtonHandler = () => {
     this.setState({ ordering: true });
   };
@@ -32,10 +36,10 @@ class BurgerBuilder extends Component {
   closeModalHandler = () => {
     this.setState({ ordering: false });
   };
-  updateCanOrder = ingerdients => {
-    const totalAmount = Object.keys(ingerdients)
+  updateCanOrder = ingredients => {
+    const totalAmount = Object.keys(ingredients)
       .map(key => {
-        return ingerdients[key];
+        return ingredients[key];
       })
       .reduce((sum, el) => {
         return sum + el;
@@ -46,41 +50,52 @@ class BurgerBuilder extends Component {
   };
 
   addIngerdientHandler = type => {
-    let ingerdient = this.state.ingerdients[type];
+    let ingerdient = this.state.ingredients[type];
     let newIngerdientValue = ingerdient + 1;
-    let ingerdients = { ...this.state.ingerdients };
-    ingerdients[type] = newIngerdientValue;
+    let ingredients = { ...this.state.ingredients };
+    ingredients[type] = newIngerdientValue;
     let newTotalPrice = this.state.totalPrice + INGERDIENT_PRICE[type];
     this.setState({
-      ingerdients,
+      ingredients,
       totalPrice: newTotalPrice
     });
-    this.updateCanOrder(ingerdients);
+    this.updateCanOrder(ingredients);
   };
 
   removeIngerdientHandler = type => {
-    let ingerdient = this.state.ingerdients[type];
+    let ingerdient = this.state.ingredients[type];
     if (ingerdient <= 0) {
       return;
     }
     let newIngerdientValue = ingerdient - 1;
-    let ingerdients = { ...this.state.ingerdients };
-    ingerdients[type] = newIngerdientValue;
+    let ingredients = { ...this.state.ingredients };
+    ingredients[type] = newIngerdientValue;
     let newTotalPrice = this.state.totalPrice - INGERDIENT_PRICE[type];
     this.setState({
-      ingerdients,
+      ingredients,
       totalPrice: newTotalPrice
     });
-    this.updateCanOrder(ingerdients);
+    this.updateCanOrder(ingredients);
   };
 
   continueHandler = () => {
-    alert("continue");
+    const queryParam = [];
+    for (let i in this.state.ingredients) {
+      queryParam.push(
+        encodeURIComponent(i) +
+          "=" +
+          encodeURIComponent(this.state.ingredients[i])
+      );
+    }
+    this.props.history.push({
+      pathname: "/checkout",
+      search: "?" + queryParam.join("&")
+    });
   };
 
   render() {
     const disabledIngerdient = {
-      ...this.state.ingerdients
+      ...this.state.ingredients
     };
     for (let key in disabledIngerdient) {
       disabledIngerdient[key] = disabledIngerdient[key] <= 0;
@@ -93,10 +108,10 @@ class BurgerBuilder extends Component {
             price={this.state.totalPrice}
             cancelClicked={this.closeModalHandler}
             continueClicked={this.continueHandler}
-            ingerdients={this.state.ingerdients}
+            ingredients={this.state.ingredients}
           ></OrderSummery>
-        </Modal>        
-        <Burger ingerdients={this.state.ingerdients}></Burger>
+        </Modal>
+        <Burger ingredients={this.state.ingredients}></Burger>
         <BuildControls
           addIngerdient={this.addIngerdientHandler}
           removeIngerdient={this.removeIngerdientHandler}

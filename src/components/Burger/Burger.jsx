@@ -3,9 +3,10 @@ import "./Burger.css";
 import BurgerIngerdient from "../Burger/BurgerIngerdient/BurgerIngerdient";
 
 const burger = props => {
-  let transformIngerdient = Object.keys(props.ingerdients)
+  console.log(props);
+  let transformIngerdient = Object.keys(props.ingredients)
     .map(igKey => {
-      return [...Array(props.ingerdients[igKey])].map((_, index) => {
+      return [...Array(props.ingredients[igKey])].map((_, index) => {
         return (
           <BurgerIngerdient key={index + igKey} type={igKey}></BurgerIngerdient>
         );
