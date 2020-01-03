@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import ContactData from "../../containers/ContactData/ContactData";
 import CheckoutSummary from "../../components/Order/CheckoutSummery/CheckoutSummery";
+import {connect} from 'react-redux'
 
 class Checkout extends Component {
   componentDidMount() {
@@ -44,5 +45,7 @@ class Checkout extends Component {
     );
   }
 }
+
+
 
 export default Checkout;

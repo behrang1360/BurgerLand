@@ -2,6 +2,7 @@ import React from "react";
 
 import Burger from "../../Burger/Burger";
 import Button from "../../UI/Button/Button";
+import {connect} from "react-redux"
 import "./CheckoutSummery.css";
 
 const checkoutSummary = props => {
@@ -22,4 +23,10 @@ const checkoutSummary = props => {
   );
 };
 
-export default checkoutSummary;
+const mapStatToProps = state => { 
+  return {
+    ings : state.ingredients
+  }
+
+}
+export default connect(mapStatToProps) (checkoutSummary);
